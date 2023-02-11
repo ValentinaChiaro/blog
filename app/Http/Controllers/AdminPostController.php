@@ -26,7 +26,7 @@ class AdminPostController extends Controller
         Post::create(array_merge($this->validatePost(), [
             'user_id' => request()->user()->id,
             'thumbnail' => request()->file('thumbnail')->store('thumbnails'),
-            'status' => lcfirst(request('draft'))
+            'status' => lcfirst(request('status')),
         ]));
 
         return redirect('/');
@@ -39,15 +39,20 @@ class AdminPostController extends Controller
 
     public function update(Post $post)
     {
-        $attributes = $this->validatePost($post);
+        // Tiene que haber otra forma de hacer esto
+        $attributes = array_merge(
+            $this->validatePost($post),
+            $username = request()->validate([
+                'username' => ['required', Rule::exists('users', 'username')]
+            ])
+        );
+        $attributes += ['user_id'=> User::where('username', $username)->first()->id];
 
         if ($attributes['thumbnail'] ?? false) {
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
         }
 
-        // Tiene que haber otra forma de hacer esto
-        $attributes += ['user_id'=> User::where('username', $attributes['username'])->first()->id];
-        unset($attributes['username']);
+        dd($attributes);
 
         $post->update($attributes);
 
@@ -72,7 +77,6 @@ class AdminPostController extends Controller
             'excerpt' => 'required',
             'body' => 'required',
             'status' => 'required',
-            'username' => ['required', Rule::exists('users', 'username')],
             'category_id' => ['required', Rule::exists('categories', 'id')]
         ]);
     }

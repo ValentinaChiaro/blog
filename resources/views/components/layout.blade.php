@@ -30,7 +30,7 @@
     <nav class="flex justify-between items-center">
             <div>
                 <a href="/" >
-                    <img src="images/image-from-rawpixel-id-3150659-original.png" alt="Logo" width="100">
+                    <img src="https://www.kadencewp.com/wp-content/uploads/2020/10/alogo-1.png" alt="Logo" width="100">
                 </a>
 
             </div>

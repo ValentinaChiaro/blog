@@ -8,6 +8,7 @@
             <x-form.input name="thumbnail" type="file" required />
             <x-form.textarea name="excerpt" required />
             <x-form.textarea name="body" required />
+            <input type="number" name="views" value=0 hidden>
 
             <x-form.field>
                 <x-form.label name="category"/>
@@ -26,11 +27,14 @@
 
             <div class="flex justify-between items-center mt-4">
                 {{-- How to override component class --}}
-                <input type="submit" name="draft" value="Draft"
+                <input type="submit" name="status" value="Draft"
                 class="bg-gray-500 text-white uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-gray-600">
-                <input type="submit" name="draft" value="Publish"
+                <input type="submit" name="status" value="Publish"
                 class="bg-blue-500 text-white uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-blue-600">
             </div>
         </form>
+        @if($errors->any())
+            {{ implode('', $errors->all('<div>:message</div>')) }}
+        @endif
     </x-setting>
 </x-layout>

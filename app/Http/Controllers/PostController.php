@@ -11,15 +11,17 @@ class PostController extends Controller
     public function index(){
 
         return view('posts.index',[
-        'posts' => Post::latest()->filter(request(['search','category','author']))->where('status', 'publish')->paginate(6)->withQueryString()
+        'posts' => Post::orderBy('published_at','asc')->orderBy('views', 'desc')->filter(request(['search','category','author']))->where('status', 'publish')->paginate(6)->withQueryString()
         ]);
 
     }
 
     public function show(Post $post) {
+        $post->incrementViewsCount();
         return view('posts.show',[
             'post' => $post
         ]);
     }
+
 
 }

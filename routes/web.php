@@ -29,17 +29,17 @@ Route::get('posts/{post:slug}',[PostController::class, 'show']);
 // Admin
 Route::middleware('can:admin')->group(function () {
 
+    Route::post('admin/posts', [AdminPostController::class, 'store']);
+
     Route::get('admin/posts/create', [AdminPostController::class, 'create']);
 
-    Route::post('admin/posts', [AdminPostController::class, 'store']);
+    Route::get('admin/posts/{status}', [AdminPostController::class, 'index']);
 
     Route::patch('admin/posts/{post}', [AdminPostController::class, 'update']);
 
     Route::get('admin/posts/{post}/edit', [AdminPostController::class, 'edit']);
 
     Route::delete('admin/posts/{post}', [AdminPostController::class, 'destroy']);
-
-    Route::get('admin/posts/{status}', [AdminPostController::class, 'index']);
 
 });
 

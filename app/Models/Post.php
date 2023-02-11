@@ -38,6 +38,11 @@ class Post extends Model
 
     }
 
+    public function incrementViewsCount(){
+        $this->views++;
+        return $this->save();
+    }
+
     public function comments(){
         return $this->hasMany(Comment::class)->orderByDesc('created_at');
     }
